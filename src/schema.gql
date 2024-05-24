@@ -2,6 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Todo {
+  id: Int!
+  description: String!
+  done: Boolean!
+}
+
+"""Todo quick aggretation"""
+type AggretationsType {
+  total: Int!
+  pending: Int!
+  completed: Int!
+  totalTodosCompleted: Int! @deprecated(reason: "Use completed instead")
+}
+
 type Query {
   """It returns hello graphql"""
   hello: String!
@@ -10,4 +24,29 @@ type Query {
 
   """Get a random number from zero to your desired argument (Default 6)"""
   randomNumberFromZeroToNum(to: Int = 6): Int!
+  Todos(status: Boolean): [Todo!]!
+  Todo(id: Int!): Todo!
+  totalTodos: Int!
+  completedTodos: Int!
+  pendingTodos: Int!
+  aggregations: AggretationsType!
+}
+
+type Mutation {
+  CreateNewTodo(createTodoInput: CreateTodoInput!): Todo!
+  UpdateTodo(updateTodoInput: UpdateTodoInput!): Todo!
+  removeTodo(id: Int!): Boolean!
+}
+
+input CreateTodoInput {
+  """The description of the todo"""
+  description: String!
+}
+
+input UpdateTodoInput {
+  id: Int!
+
+  """The description of the todo"""
+  description: String
+  done: Boolean
 }
